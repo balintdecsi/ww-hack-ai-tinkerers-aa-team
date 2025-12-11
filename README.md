@@ -24,6 +24,8 @@ Now, open the newly created `.env` file and replace the placeholder values with 
 ```
 ANAM_API_KEY=your_anam_api_key_here
 BLACKBOX_API_KEY=your_blackbox_api_key_here
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+GOOGLE_API_KEY=your_google_api_key_here
 ```
 
 ### 4. Install Dependencies
