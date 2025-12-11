@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>{{ project.title }}</h1>
+            <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary btn-sm">Back to Home</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Audio Player -->
+        <div class="col-12 mb-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Voiceover</h5>
+                    {% if project.audio_path %}
+                        <audio controls class="w-100">
+                            <source src="{{ url_for('static', filename='uploads/audio/' + project.audio_path) }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    {% else %}
+                        <p class="text-muted">No audio generated.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manga Pages -->
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-3">Manga Pages</h3>
+            <div class="d-flex flex-column align-items-center gap-4">
+                {% for page in project.pages %}
+                <div class="card shadow-sm" style="max-width: 800px;">
+                    <img src="{{ url_for('static', filename='uploads/' + page) }}" class="card-img-top" alt="Page {{ loop.index }}">
+                    <div class="card-footer text-center text-muted">
+                        Page {{ loop.index }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Script -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="accordion" id="scriptAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            View Script
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#scriptAccordion">
+                        <div class="accordion-body">
+                            <pre style="white-space: pre-wrap;">{{ project.script }}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

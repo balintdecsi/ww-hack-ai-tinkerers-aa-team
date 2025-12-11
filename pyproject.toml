@@ -10,7 +10,10 @@ dependencies = [
     "requests",
     "gunicorn",
     "email-validator",
-    "werkzeug"
+    "werkzeug",
+    "google-genai",
+    "elevenlabs",
+    "pillow"
 ]
 
 [project.optional-dependencies]
