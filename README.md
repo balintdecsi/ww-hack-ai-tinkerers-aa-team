@@ -1,7 +1,7 @@
 # Comics Factory
 
 ## Project Description
-Comics Factory is a demo application created for a hackathon. Its purpose is to showcase an immersive experience for conversational AI solutions, leveraging the power of Anam and Blackbox APIs.
+Comics Factory is a demo application created for a hackathon. Its purpose is to showcase an immersive experience for conversational AI solutions, leveraging the power of **Anam**, **Blackbox**, **ElevenLabs**, and **Gemini** APIs to create an intelligent workflow.
 
 ## Setup Instructions
 
