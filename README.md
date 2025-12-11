@@ -1,42 +1,45 @@
 # Comics Factory
 
-A Flask application creating immersive experiences for conversational AI solutions using Anam and Blackbox APIs.
+## Project Description
+Comics Factory is a demo application created for a hackathon. Its purpose is to showcase an immersive experience for conversational AI solutions, leveraging the power of Anam and Blackbox APIs.
 
-## Setup
+## Setup Instructions
 
-1.  **Install `uv` (if not installed):**
-    ```bash
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
+### 1. Python Version
+Ensure you have Python 3.11 or higher installed.
 
-2.  **Install dependencies:**
-    ```bash
-    uv venv
-    source .venv/bin/activate
-    uv pip install -r pyproject.toml --all-extras
-    # OR if uv sync is available/preferred
-    uv sync
-    ```
-
-3.  **Environment:**
-    ```bash
-    cp .env.example .env
-    # Edit .env with your API keys
-    ```
-
-4.  **Database:**
-    ```bash
-    flask db init
-    flask db migrate -m "Initial migration"
-    flask db upgrade
-    ```
-
-5.  **Run (Dev):**
-    ```bash
-    flask run
-    ```
-
-## Testing
+### 2. Install `uv` Package Manager
+This project uses `uv` for dependency management. If you don't have `uv` installed, you can install it using pip:
 ```bash
-pytest
+pip install uv
 ```
+
+### 3. Environment Variables
+API keys and other sensitive information are loaded from a `.env` file.
+Create a `.env` file in the root directory of the project by copying the `.env.example` file:
+```bash
+cp .env.example .env
+```
+Now, open the newly created `.env` file and replace the placeholder values with your actual API keys. For example:
+```
+ANAM_API_KEY=your_anam_api_key_here
+BLACKBOX_API_KEY=your_blackbox_api_key_here
+```
+
+### 4. Install Dependencies
+With `uv` installed, navigate to the project's root directory and install the required dependencies:
+```bash
+uv pip install -r requirements.txt
+```
+
+### 5. Run the Flask Application
+After installing dependencies, you can run the Flask application locally:
+```bash
+flask run
+```
+
+The application will typically be available at `http://127.0.0.1:5000/`.
+
+### Available Routes
+- `/`: Returns "Hello, World!"
+- `/health`: Returns `{"status": "ok"}`
