@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <h3>{{ project.title }}</h3>
+        <img src="{{ url_for('static', filename='uploads/' + project.protagonist_image_path) }}" class="img-fluid mb-3 rounded" alt="Protagonist">
+        <p class="text-muted">Anam Avatar ID: {{ project.anam_avatar_id }}</p>
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back</a>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Interactive Avatar</div>
+            <div class="card-body text-center bg-light" style="min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <!-- Anam Embed -->
+                <video id="avatar-video" autoplay playsinline style="width: 100%; height: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;"></video>
+                <div id="controls" class="mt-3" style="display: none;">
+                    <div class="input-group">
+                        <input type="text" id="user-input" class="form-control" placeholder="Say something...">
+                        <button class="btn btn-primary" id="btn-speak">Speak</button>
+                    </div>
+                </div>
+                <div id="status" class="text-muted mt-2">Connecting...</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+    import { createClient } from "https://esm.sh/@anam-ai/js-sdk@latest";
+
+    const config = {{ anam_config|tojson }};
+    const statusEl = document.getElementById('status');
+    const controlsEl = document.getElementById('controls');
+    const videoEl = document.getElementById('avatar-video');
+    const inputEl = document.getElementById('user-input');
+    const speakBtn = document.getElementById('btn-speak');
+
+    let anamClient = null;
+
+    async function initAnam() {
+        try {
+            if (!config.sessionToken) {
+                throw new Error("No session token provided");
+            }
+
+            console.log("Initializing Anam client...");
+            // createClient only needs the sessionToken when using ephemeral personaConfig
+            anamClient = createClient(config.sessionToken);
+
+            console.log("Streaming to video element...");
+            await anamClient.streamToVideoElement("avatar-video");
+            
+            statusEl.textContent = "Connected. Say hello!";
+            controlsEl.style.display = "block";
+            
+            // Register event listeners if supported by SDK (optional but good)
+            // anamClient.on('error', (err) => console.error(err));
+
+        } catch (error) {
+            console.error("Anam Init Error:", error);
+            statusEl.textContent = "Error connecting to Anam: " + error.message;
+            statusEl.classList.add('text-danger');
+        }
+    }
+
+    // Initialize on load
+    initAnam();
+
+    // Speak button handler
+    speakBtn.addEventListener('click', async () => {
+        const text = inputEl.value;
+        if (!text || !anamClient) return;
+        
+        try {
+            await anamClient.talk(text);
+            inputEl.value = '';
+        } catch (err) {
+            console.error("Talk Error:", err);
+            alert("Error sending message: " + err.message);
+        }
+    });
+    
+    // Allow Enter key
+    inputEl.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') speakBtn.click();
+    });
+</script>
+{% endblock %}

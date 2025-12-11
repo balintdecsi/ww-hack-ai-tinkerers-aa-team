@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">New Project</div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control") }}
+                        {% for error in form.title.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.gender.label(class="form-label") }}
+                        {{ form.gender(class="form-select") }}
+                        {% for error in form.gender.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.comic_file.label(class="form-label") }}
+                        {{ form.comic_file(class="form-control") }}
+                        {% for error in form.comic_file.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.protagonist_image.label(class="form-label") }}
+                        {{ form.protagonist_image(class="form-control") }}
+                        {% for error in form.protagonist_image.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <h2>Recent Projects</h2>
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <img src="{{ url_for('static', filename='uploads/' + project.protagonist_image_path) }}" class="card-img-top" alt="Protagonist" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <a href="{{ url_for('main.view_project', project_id=project.id) }}" class="btn btn-outline-primary">View & Chat</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col">No projects yet. Create one!</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+[project]
+name = "comics-factory"
+version = "0.1.0"
+description = "A Flask app to create immersive conversational AI experiences from manga comics."
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.0",
+    "flask-wtf",
+    "python-dotenv",
+    "requests",
+    "gunicorn",
+    "email-validator",
+    "werkzeug"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "black",
+    "isort"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.isort]
+profile = "black"
+line_length = 88
